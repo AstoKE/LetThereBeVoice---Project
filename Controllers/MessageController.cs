@@ -51,17 +51,25 @@ namespace LetThereBeVoice.Controllers
 
             var message = new Message
             {
-                Content = content,
-                SentAt = DateTime.UtcNow,
                 ChannelID = channelId,
-                SenderID = userId.Value
+                SenderID = userId.Value,
+                Content = content,
+                SentAt = DateTime.UtcNow
             };
 
             _context.Messages.Add(message);
+
+            var channel = _context.Channels.FirstOrDefault(c => c.ChannelID == channelId);
+            if (channel != null)
+            {
+                channel.LastActivity = DateTime.UtcNow;
+            }
+
             _context.SaveChanges();
 
             return RedirectToAction("List", new { channelId });
         }
+
         public IActionResult Edit(int id)
         {
             var msg = _context.Messages.Find(id);

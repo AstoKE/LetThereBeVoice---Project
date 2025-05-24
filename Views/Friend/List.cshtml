@@ -1,0 +1,29 @@
+﻿@model List<LetThereBeVoice.Models.User>
+@{
+    ViewData["Title"] = "Add Friends";
+}
+
+<h2 class="text-info mb-4">🔍 Find Users to Add as Friends</h2>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">No users available to add as friends.</p>
+}
+else
+{
+    <ul class="list-group">
+        @foreach (var user in Model)
+        {
+            <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>@user.Username</strong><br />
+                    <small class="text-muted">@user.Email</small>
+                </div>
+                <a href="/Friend/Send?id=@user.UserID" class="btn btn-outline-success btn-sm">Add Friend</a>
+            </li>
+        }
+    </ul>
+}
+
+<a href="/Friend/Friends" class="btn btn-secondary mt-4">👥 View My Friends</a>
+<a href="/Friend/Requests" class="btn btn-outline-warning mt-4 ms-2">📥 Incoming Requests</a>

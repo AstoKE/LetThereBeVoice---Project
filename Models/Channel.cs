@@ -9,7 +9,7 @@
             public string ChannelName { get; set; }
             public string ChannelType { get; set; } // 'Text' or 'Voice'
             public DateTime CreatedDate { get; set; }
-
+            public DateTime? LastActivity { get; set; }
             public int ServerID { get; set; }
             public Server Server { get; set; }
 

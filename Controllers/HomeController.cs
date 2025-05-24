@@ -40,5 +40,13 @@ namespace LetThereBeVoice.Controllers
             return View();
         }
 
+        public IActionResult RecentMessages()
+        {
+            var recent = _context.UserRecentActivity.ToList();
+            return View(recent);
+        }
+
+
+
     }
 }

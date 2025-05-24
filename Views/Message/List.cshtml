@@ -1,27 +1,44 @@
 ﻿@model List<LetThereBeVoice.Models.Message>
 @{
-    ViewData["Title"] = "Channel Messages";
     var channel = ViewBag.Channel as LetThereBeVoice.Models.Channel;
+    ViewData["Title"] = $"{channel.ChannelName} - Messages";
 }
 
-<h2>@channel.ChannelName - Messages</h2>
+<div class="container py-4">
+    <h2 class="text-primary mb-3"># @channel.ChannelName</h2>
 
-<ul class="list-group">
-    @foreach (var msg in Model)
-    {
-        <li class="list-group-item">
-            <strong>@msg.Sender.Username</strong>: @msg.Content
-            <small class="text-muted">@msg.SentAt.ToLocalTime()</small>
-        </li>
-    }
-</ul>
-
-<form method="post" action="/Message/Send" class="mt-4">
-    <input type="hidden" name="channelId" value="@channel.ChannelID" />
-    <div class="input-group">
-        <input name="content" class="form-control" placeholder="Type your message..." required />
-        <button type="submit" class="btn btn-primary">Send</button>
+    <div class="bg-black p-3 rounded shadow-sm" style="min-height: 400px; max-height: 500px; overflow-y: auto;">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var msg in Model)
+            {
+                <div class="mb-3 border-bottom pb-2 d-flex align-items-start">
+                    <div class="me-2">
+                        <div class="bg-secondary text-white rounded-circle text-center" style="width: 40px; height: 40px; line-height: 40px;">
+                            @msg.Sender.Username.Substring(0, 1).ToUpper()
+                        </div>
+                    </div>
+                    <div>
+                        <strong class="text-warning">@msg.Sender.Username</strong>
+                        <span class="text-muted small ms-2">@msg.SentAt.ToLocalTime()</span>
+                        <p class="mb-0 text-light">@msg.Content</p>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="text-muted">No messages yet.</p>
+        }
     </div>
-</form>
 
-<a href="/Channel/List?serverId=@channel.ServerID" class="btn btn-secondary mt-3">⬅ Back to Channels</a>
+    <form method="post" action="/Message/Send" class="mt-4 sticky-message-box">
+        <input type="hidden" name="channelId" value="@channel.ChannelID" />
+        <div class="input-group">
+            <input name="content" class="form-control" placeholder="Type a message..." required />
+            <button type="submit" class="btn btn-outline-primary">Send</button>
+        </div>
+    </form>
+
+    <a href="/Channel/List?serverId=@channel.ServerID" class="btn btn-secondary mt-3">⬅ Back to Channels</a>
+</div>

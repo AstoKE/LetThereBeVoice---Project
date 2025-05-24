@@ -1,0 +1,28 @@
+﻿@model List<LetThereBeVoice.Models.ViewModels.ChannelMessageCountViewModel>
+<h2 class="text-info">📊 Message Count per Channel</h2>
+
+<table class="table table-dark table-bordered">
+    <thead>
+        <tr>
+            <th>Channel</th>
+            <th>Total Messages</th>
+            <th>Server Members</th>
+            <th>Avg. Message Length</th>
+            <th>Last Message</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ChannelName</td>
+                <td>@item.MessageCount</td>
+                <td>@item.ServerMemberCount</td>
+                <td>@Math.Round(item.AverageMessageLength, 1)</td>
+                <td>@(item.LastMessageTime?.ToLocalTime().ToString("g") ?? "Never")</td>
+
+            </tr>
+        }
+    </tbody>
+</table>

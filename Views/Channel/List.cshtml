@@ -4,42 +4,55 @@
     var serverId = ViewBag.ServerID;
 }
 
-<h2 class="mb-4">Channels in Server</h2>
+<div class="container py-4">
+    <h2 class="mb-4 text-info">Channels in This Server</h2>
 
-@if (Model != null && Model.Any())
-{
-    <ul class="list-group">
-        @foreach (var c in Model)
-        {
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                    <strong>@c.ChannelName</strong> <span class="text-muted">(@c.ChannelType)</span><br />
-                    <a href="/Message/List?channelId=@c.ChannelID" class="btn btn-sm btn-info mt-1">Go to Messages</a>
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
+            @foreach (var c in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card shadow-sm bg-dark text-light border-info">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <h5 class="card-title"># @c.ChannelName</h5>
+                                <p class="card-text"><small class="text-muted">@c.ChannelType channel</small></p>
+                                <p class="card-text"><small class="text-muted">Last activity: 25.05.2025 23:01</small></p>
+
+                            </div>
+                            <div class="mt-2">
+                                <a href="/Message/List?channelId=@c.ChannelID" class="btn btn-outline-info btn-sm w-100 mb-1">Open</a>
+                                <div class="d-flex justify-content-between">
+                                    <a href="/Channel/Edit?id=@c.ChannelID" class="btn btn-sm btn-warning">Edit</a>
+                                    <form method="post" action="/Channel/Delete?id=@c.ChannelID" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <a href="/Channel/Edit?id=@c.ChannelID" class="btn btn-sm btn-warning">Edit</a>
-                    <form method="post" action="/Channel/Delete?id=@c.ChannelID" style="display:inline;">
-                        <button type="submit" class="btn btn-sm btn-danger ms-1">Delete</button>
-                    </form>
-                </div>
-            </li>
-        }
-    </ul>
-}
-else
-{
-    <p class="text-danger">No channels found for this server.</p>
-}
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">No channels found for this server.</p>
+    }
 
-<hr />
+    <hr class="my-4" />
 
-<h4 class="mt-4">Add New Channel</h4>
-<form method="post" action="/Channel/Create">
-    <input type="hidden" name="serverId" value="@serverId" />
-    <div class="mb-2">
-        <input name="channelName" class="form-control" placeholder="New Channel Name" required />
-    </div>
-    <button type="submit" class="btn btn-primary">Add Channel</button>
-</form>
+    <h4 class="text-warning">Add a New Channel</h4>
+    <form method="post" action="/Channel/Create" class="row g-2">
+        <input type="hidden" name="serverId" value="@serverId" />
+        <div class="col-md-8">
+            <input name="channelName" class="form-control" placeholder="Channel Name (e.g., general)" required />
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary w-100">Add Channel</button>
+        </div>
+    </form>
 
-<a href="/Home/Index" class="btn btn-secondary mt-4">⬅ Back to Dashboard</a>
+    <a href="/Home/Index" class="btn btn-secondary mt-4">⬅ Back to Dashboard</a>
+</div>

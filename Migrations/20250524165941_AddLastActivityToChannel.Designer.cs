@@ -4,6 +4,7 @@ using LetThereBeVoice.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LetThereBeVoice.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250524165941_AddLastActivityToChannel")]
+    partial class AddLastActivityToChannel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,36 +24,6 @@ namespace LetThereBeVoice.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Friendship", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ReceiverId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("RequestedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("RequesterId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReceiverId");
-
-                    b.HasIndex("RequesterId");
-
-                    b.ToTable("Friendships");
-                });
 
             modelBuilder.Entity("LetThereBeVoice.Models.Channel", b =>
                 {
@@ -175,28 +148,6 @@ namespace LetThereBeVoice.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("LetThereBeVoice.Models.UserRecentActivity", b =>
-                {
-                    b.Property<string>("ChannelName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("SentAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToTable((string)null);
-
-                    b.ToView("UserRecentActivity", (string)null);
-                });
-
             modelBuilder.Entity("LetThereBeVoice.Models.UserServer", b =>
                 {
                     b.Property<int>("UserID")
@@ -213,25 +164,6 @@ namespace LetThereBeVoice.Migrations
                     b.HasIndex("ServerID");
 
                     b.ToTable("UserServer");
-                });
-
-            modelBuilder.Entity("Friendship", b =>
-                {
-                    b.HasOne("LetThereBeVoice.Models.User", "Receiver")
-                        .WithMany()
-                        .HasForeignKey("ReceiverId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("LetThereBeVoice.Models.User", "Requester")
-                        .WithMany()
-                        .HasForeignKey("RequesterId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Receiver");
-
-                    b.Navigation("Requester");
                 });
 
             modelBuilder.Entity("LetThereBeVoice.Models.Channel", b =>
