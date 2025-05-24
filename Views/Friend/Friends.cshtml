@@ -1,6 +1,29 @@
-﻿namespace LetThereBeVoice.Views.Friend
-{
-    public class Friends
-    {
-    }
+﻿@model List<LetThereBeVoice.Models.User>
+@{
+    ViewData["Title"] = "My Friends";
 }
+
+<h2 class="text-success mb-4">👥 My Friends</h2>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">You have no friends yet.</p>
+}
+else
+{
+    <ul class="list-group">
+        @foreach (var friend in Model)
+        {
+            <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>@friend.Username</strong>
+                    <br />
+                    <small class="text-muted">@friend.Email</small>
+                </div>
+            </li>
+        }
+    </ul>
+}
+
+<a href="/Friend/List" class="btn btn-outline-info mt-4">➕ Add More Friends</a>
+<a href="/Friend/Requests" class="btn btn-outline-warning mt-4 ms-2">📥 Incoming Requests</a>
