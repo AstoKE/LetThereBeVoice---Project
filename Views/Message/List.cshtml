@@ -6,17 +6,22 @@
 
 <h2>@channel.ChannelName - Messages</h2>
 
-<ul>
+<ul class="list-group">
     @foreach (var msg in Model)
     {
-        <li><strong>@msg.Sender.Username</strong>: @msg.Content <small>@msg.SentAt.ToLocalTime()</small></li>
+        <li class="list-group-item">
+            <strong>@msg.Sender.Username</strong>: @msg.Content
+            <small class="text-muted">@msg.SentAt.ToLocalTime()</small>
+        </li>
     }
 </ul>
 
-<form method="post" action="/Message/Send">
+<form method="post" action="/Message/Send" class="mt-4">
     <input type="hidden" name="channelId" value="@channel.ChannelID" />
-    <input name="content" placeholder="Type your message..." style="width:70%" />
-    <button type="submit">Send</button>
+    <div class="input-group">
+        <input name="content" class="form-control" placeholder="Type your message..." required />
+        <button type="submit" class="btn btn-primary">Send</button>
+    </div>
 </form>
 
-<a href="/Channel/List?serverId=@channel.ServerID">⬅ Back to Channels</a>
+<a href="/Channel/List?serverId=@channel.ServerID" class="btn btn-secondary mt-3">⬅ Back to Channels</a>

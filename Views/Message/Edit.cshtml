@@ -1,0 +1,12 @@
+﻿@model LetThereBeVoice.Models.Message
+
+<h2>Edit Message</h2>
+
+<form method="post">
+    <input asp-for="MessageID" type="hidden" />
+    <label>Message Content:</label>
+    <textarea asp-for="Content" class="form-control"></textarea>
+    <br />
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a href="/Message/List?channelId=@Model.ChannelID" class="btn btn-secondary">Cancel</a>
+</form>
