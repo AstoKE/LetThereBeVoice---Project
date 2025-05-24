@@ -1,8 +1,43 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
+    var created = ViewBag.CreatedServers as List<LetThereBeVoice.Models.Server>;
+    var joined = ViewBag.JoinedServers as List<LetThereBeVoice.Models.Server>;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Welcome, @ViewBag.UserName 👋</h2>
+
+<h3>Your Created Servers</h3>
+@if (created != null && created.Count > 0)
+{
+    <ul>
+        @foreach (var server in created)
+        {
+            <li>@server.ServerName (Created by You)</li>
+        }
+    </ul>
+}
+else
+{
+    <p>You haven’t created any servers yet.</p>
+    <p><a href="/Server/Create">➕ Create New Server</a></p>
+}
+
+<h3>Your Joined Servers</h3>
+@if (joined != null && joined.Count > 0)
+{
+    <ul>
+        @foreach (var server in joined)
+        {
+            <li><a href="/Channel/List?serverId=@server.ServerID">@server.ServerName</a></li>
+        }
+    </ul>
+}
+else
+{
+    <p>You haven’t joined any servers yet.</p>
+	<p><a href="/Server/Join">🔗 Join Existing Server</a></p>
+}
+
+<form method="post" action="/Account/Logout">
+    <button type="submit">Logout</button>
+</form>

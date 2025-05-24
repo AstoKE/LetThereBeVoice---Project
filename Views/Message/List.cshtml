@@ -1,0 +1,22 @@
+﻿@model List<LetThereBeVoice.Models.Message>
+@{
+    ViewData["Title"] = "Channel Messages";
+    var channel = ViewBag.Channel as LetThereBeVoice.Models.Channel;
+}
+
+<h2>@channel.ChannelName - Messages</h2>
+
+<ul>
+    @foreach (var msg in Model)
+    {
+        <li><strong>@msg.Sender.Username</strong>: @msg.Content <small>@msg.SentAt.ToLocalTime()</small></li>
+    }
+</ul>
+
+<form method="post" action="/Message/Send">
+    <input type="hidden" name="channelId" value="@channel.ChannelID" />
+    <input name="content" placeholder="Type your message..." style="width:70%" />
+    <button type="submit">Send</button>
+</form>
+
+<a href="/Channel/List?serverId=@channel.ServerID">⬅ Back to Channels</a>

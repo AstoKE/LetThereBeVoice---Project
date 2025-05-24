@@ -5,15 +5,31 @@
 
 <h2>Register</h2>
 
+@* Hataları Göster *@
+@if (!ViewData.ModelState.IsValid)
+{
+    <div style="color:red;">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+
 <form method="post">
-    <label>Username:</label><br />
-    <input asp-for="Username" /><br />
-    <label>Email:</label><br />
-    <input asp-for="Email" /><br />
-    <label>Password:</label><br />
-    <input asp-for="Password" type="password" /><br />
+    <label>Username:</label>
+    <input asp-for="Username" />
+    <span asp-validation-for="Username" style="color:red"></span>
+
+    <label>Email:</label>
+    <input asp-for="Email" />
+    <span asp-validation-for="Email" style="color:red"></span>
+
+    <label>Password:</label>
+    <input asp-for="Password" type="password" />
+    <span asp-validation-for="Password" style="color:red"></span>
+
     <button type="submit">Register</button>
 </form>
-
-<p>Already have an account? <a href="/Account/Login">Login here</a></p>
-

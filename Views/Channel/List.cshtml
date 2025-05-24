@@ -1,0 +1,22 @@
+﻿@model List<LetThereBeVoice.Models.Channel>
+@{
+    ViewData["Title"] = "Channels";
+    int serverId = ViewBag.ServerID;
+}
+
+<h2>Channels in this Server</h2>
+
+<ul>
+    @foreach (var c in Model)
+    {
+        <li><a href="/Message/List?channelId=@c.ChannelID">@c.ChannelName</a></li>
+    }
+</ul>
+
+<form method="post" action="/Channel/Create">
+    <input name="channelName" placeholder="New Channel Name" />
+    <input type="hidden" name="serverId" value="@serverId" />
+    <button type="submit">Add Channel</button>
+</form>
+
+<a href="/Home/Index">Back to Home</a>

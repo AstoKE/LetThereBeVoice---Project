@@ -1,32 +1,44 @@
-using System.Diagnostics;
-using LetThereBeVoice.Models;
 using Microsoft.AspNetCore.Mvc;
+using LetThereBeVoice.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace LetThereBeVoice.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly AppDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(AppDbContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
-        }
+            int? userId = HttpContext.Session.GetInt32("UserID");
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            var user = _context.Users
+                .Include(u => u.CreatedServers)
+                .FirstOrDefault(u => u.UserID == userId);
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var joinedServerIds = _context.UserServer
+                .Where(us => us.UserID == userId)
+                .Select(us => us.ServerID)
+                .ToList();
+
+            var joinedServers = _context.Servers
+                .Where(s => joinedServerIds.Contains(s.ServerID))
+                .ToList();
+
+            ViewBag.UserName = user.Username;
+            ViewBag.CreatedServers = user.CreatedServers;
+            ViewBag.JoinedServers = joinedServers;
+
+            return View();
         }
     }
 }
