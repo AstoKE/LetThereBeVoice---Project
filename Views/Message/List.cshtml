@@ -6,6 +6,25 @@
 
 <div class="container py-4">
     <h2 class="text-primary mb-3"># @channel.ChannelName</h2>
+    <div class="mb-3">
+        <h5 class="text-info">🎙Voice Channel Members</h5>
+        <ul>
+            @foreach (var user in ViewBag.VoiceUsers as List<LetThereBeVoice.Models.User>)
+            {
+                <li>@user.Username</li>
+            }
+        </ul>
+
+        <form method="get" action="/Voice/Join">
+            <input type="hidden" name="channelId" value="@channel.ChannelID" />
+            <button type="submit" class="btn btn-sm btn-outline-success me-2">Join Voice</button>
+        </form>
+        <form method="get" action="/Voice/Leave" class="mt-2">
+            <input type="hidden" name="channelId" value="@channel.ChannelID" />
+            <button type="submit" class="btn btn-sm btn-outline-danger">Leave Voice</button>
+        </form>
+    </div>
+
 
     <div class="bg-black p-3 rounded shadow-sm" style="min-height: 400px; max-height: 500px; overflow-y: auto;">
         @if (Model != null && Model.Any())

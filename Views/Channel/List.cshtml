@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "Channel List";
     var serverId = ViewBag.ServerID;
+    var roleMap = ViewBag.RoleMap as Dictionary<int, string>;
+   
 }
 
 <div class="container py-4">
@@ -18,16 +20,25 @@
                             <div>
                                 <h5 class="card-title"># @c.ChannelName</h5>
                                 <p class="card-text"><small class="text-muted">@c.ChannelType channel</small></p>
-                                <p class="card-text"><small class="text-muted">Last activity: 25.05.2025 23:01</small></p>
+                                <p class="card-text mt-2">
+                                    <span class="text-warning fw-bold">
+                                        Last activity: @(c.LastActivity?.ToLocalTime().ToString("g") ?? "Never")
+                                    </span>
+                                </p>
 
                             </div>
                             <div class="mt-2">
                                 <a href="/Message/List?channelId=@c.ChannelID" class="btn btn-outline-info btn-sm w-100 mb-1">Open</a>
                                 <div class="d-flex justify-content-between">
-                                    <a href="/Channel/Edit?id=@c.ChannelID" class="btn btn-sm btn-warning">Edit</a>
-                                    <form method="post" action="/Channel/Delete?id=@c.ChannelID" style="display:inline;">
-                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                    </form>
+
+                                    @if ((ViewBag.UserRoles as Dictionary<int, string>)?[c.ServerID] == "Admin")
+                                    {
+                                        <a href="/Channel/Edit?id=@c.ChannelID" class="btn btn-sm btn-warning">Edit</a>
+                                        <form method="post" action="/Channel/Delete?id=@c.ChannelID" style="display:inline;">
+                                            <button type="submit" class="btn btn-sm btn-danger ms-1">Delete</button>
+                                        </form>
+                                    }
+                                    
                                 </div>
                             </div>
                         </div>

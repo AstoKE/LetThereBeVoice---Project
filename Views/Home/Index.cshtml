@@ -2,14 +2,15 @@
     ViewData["Title"] = "Dashboard";
     var created = ViewBag.CreatedServers as List<LetThereBeVoice.Models.Server>;
     var joined = ViewBag.JoinedServers as List<LetThereBeVoice.Models.Server>;
+
 }
 
 <div class="container py-4">
-    <h2 class="mb-4">Welcome, @ViewBag.UserName 👋</h2>
+    <h2 class="mb-4">Welcome, @ViewBag.UserName</h2>
 
     <div class="row">
         <div class="col-lg-6">
-            <h4 class="text-warning mb-3">🧱 Your Created Servers</h4>
+            <h4 class="text-warning mb-3">Your Created Servers</h4>
             @if (created != null && created.Count > 0)
             {
                 <div class="row">
@@ -18,9 +19,10 @@
                         <div class="col-md-6 mb-3">
                             <div class="card border-warning shadow-sm bg-dark text-light">
                                 <div class="card-body">
-                                    <h5 class="card-title">🛠️ @s.ServerName</h5>
+                                    <h5 class="card-title">@s.ServerName</h5>
                                     <p class="card-text"><small class="text-muted">Created: @s.CreationDate.ToShortDateString()</small></p>
                                     <a href="/Channel/List?serverId=@s.ServerID" class="btn btn-outline-warning btn-sm w-100">Go to Channels</a>
+                                
                                 </div>
                             </div>
                         </div>
@@ -34,7 +36,7 @@
         </div>
 
         <div class="col-lg-6">
-            <h4 class="text-info mb-3">🎴 Servers You Joined</h4>
+            <h4 class="text-info mb-3">Servers You Joined</h4>
             @if (joined != null && joined.Count > 0)
             {
                 <div class="row">
@@ -43,8 +45,17 @@
                         <div class="col-md-6 mb-3">
                             <div class="card border-info shadow-sm bg-secondary text-light">
                                 <div class="card-body">
-                                    <h5 class="card-title">📥 @s.ServerName</h5>
+                                    <h5 class="card-title">@s.ServerName</h5>
+                                    @{
+                                        var userRoles = ViewBag.UserRoles as Dictionary<int, string>;
+                                        var roleName = userRoles != null && userRoles.ContainsKey(s.ServerID)
+                                        ? userRoles[s.ServerID]
+                                        : "Unknown";
+                                    }
+                                    <small class="text-muted">Role: @roleName</small>
+
                                     <a href="/Channel/List?serverId=@s.ServerID" class="btn btn-outline-info btn-sm w-100">Go to Channels</a>
+
                                 </div>
                             </div>
                         </div>

@@ -37,6 +37,15 @@ namespace LetThereBeVoice.Controllers
                 .Select(us => us.User)
                 .ToList();
 
+            var voiceUsers = _context.VoiceSessions
+                .Include(v => v.User)
+                .Where(v => v.ChannelID == channelId)
+                .Select(v => v.User)
+                .ToList();
+
+            ViewBag.VoiceUsers = voiceUsers;
+
+
             ViewBag.Participants = participants;
 
             return View(messages);

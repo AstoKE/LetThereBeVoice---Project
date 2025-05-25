@@ -2,12 +2,17 @@
     ViewData["Title"] = "Create Server";
 }
 
-<h2>Create a New Server</h2>
+<div class="container py-5">
+    <h2 class="text-info mb-4">Create a New Server</h2>
 
-<form method="post">
-    <label>Server Name:</label>
-    <input name="serverName" required />
-    <button type="submit">Create</button>
-</form>
+    <form method="post" class="row g-3">
+        <div class="col-md-8">
+            <input name="serverName" class="form-control form-control-lg" placeholder="Enter server name..." required />
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-success btn-lg w-100">Create Server</button>
+        </div>
+    </form>
 
-<a href="/Home/Index">Back to Home</a>
+    <a href="/Home/Index" class="btn btn-secondary mt-4">⬅ Back to Dashboard</a>
+</div>

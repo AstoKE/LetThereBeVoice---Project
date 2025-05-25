@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using LetThereBeVoice.Data;
 using LetThereBeVoice.Models;
+using System.Linq;
+using Microsoft.AspNetCore.Hosting.Server;
 
 namespace LetThereBeVoice.Controllers
 {
@@ -38,25 +40,50 @@ namespace LetThereBeVoice.Controllers
             _context.SaveChanges();
 
             // Kullanıcı otomatik olarak kendi oluşturduğu sunucuya katılsın
-            var userServer = new UserServer
+            _context.UserServer.Add(new UserServer
             {
                 UserID = userId.Value,
                 ServerID = server.ServerID
-            };
+            });
 
-            _context.UserServer.Add(userServer);
+            // Oluşturucuya Admin rolü ata
+            var adminRoleId = _context.Roles.FirstOrDefault(r => r.RoleName == "Admin")?.RoleID ?? 1;
+
+            _context.ServerRoles.Add(new ServerRole
+            {
+                ServerID = server.ServerID,
+                UserID = userId.Value,
+                RoleID = adminRoleId
+            });
+
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Home");
         }
 
-        // GET: /Server/Join
+        [HttpGet]
         public IActionResult Join()
         {
+            int? userId = HttpContext.Session.GetInt32("UserID");
+            if (userId == null)
+                return RedirectToAction("Login", "Account");
+
+            var joinedServerIds = _context.UserServer
+                .Where(us => us.UserID == userId)
+                .Select(us => us.ServerID)
+                .ToList();
+
+            var availableServers = _context.Servers
+                .Where(s => !joinedServerIds.Contains(s.ServerID))
+                .ToList();
+
+            ViewBag.AvailableServers = availableServers;
+
             return View();
         }
 
-        // POST: /Server/Join
+
+
         [HttpPost]
         public IActionResult Join(int serverId)
         {
@@ -64,18 +91,45 @@ namespace LetThereBeVoice.Controllers
             if (userId == null)
                 return RedirectToAction("Login", "Account");
 
-            bool alreadyJoined = _context.UserServer.Any(us => us.UserID == userId && us.ServerID == serverId);
-            if (!alreadyJoined)
+            var existing = _context.UserServer
+                .FirstOrDefault(us => us.ServerID == serverId && us.UserID == userId);
+
+            if (existing == null)
             {
                 _context.UserServer.Add(new UserServer
                 {
-                    UserID = userId.Value,
-                    ServerID = serverId
+                    ServerID = serverId,
+                    UserID = userId.Value
                 });
+
+                // Sadece Member rolü ata
+                var memberRoleId = _context.Roles.FirstOrDefault(r => r.RoleName == "Member")?.RoleID;
+                if (memberRoleId == null)
+                {
+                    TempData["Error"] = "Member role not found.";
+                    return RedirectToAction("Join");
+                }
+
+                _context.ServerRoles.Add(new ServerRole
+                {
+                    ServerID = serverId,
+                    UserID = userId.Value,
+                    RoleID = memberRoleId.Value
+                });
+
                 _context.SaveChanges();
+            }
+
+            var server = _context.Servers.FirstOrDefault(s => s.ServerID == serverId);
+            if (server == null)
+            {
+                TempData["Error"] = "Server not found.";
+                return RedirectToAction("Join");
             }
 
             return RedirectToAction("Index", "Home");
         }
+
+
     }
 }

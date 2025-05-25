@@ -4,6 +4,7 @@ using LetThereBeVoice.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LetThereBeVoice.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250525110243_AddVoiceSession")]
+    partial class AddVoiceSession
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,23 +117,6 @@ namespace LetThereBeVoice.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("LetThereBeVoice.Models.Role", b =>
-                {
-                    b.Property<int>("RoleID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleID"));
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RoleID");
-
-                    b.ToTable("Roles");
-                });
-
             modelBuilder.Entity("LetThereBeVoice.Models.Server", b =>
                 {
                     b.Property<int>("ServerID")
@@ -154,34 +140,6 @@ namespace LetThereBeVoice.Migrations
                     b.HasIndex("CreatorID");
 
                     b.ToTable("Servers");
-                });
-
-            modelBuilder.Entity("LetThereBeVoice.Models.ServerRole", b =>
-                {
-                    b.Property<int>("ServerRoleID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServerRoleID"));
-
-                    b.Property<int>("RoleID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServerID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ServerRoleID");
-
-                    b.HasIndex("RoleID");
-
-                    b.HasIndex("ServerID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("ServerRoles");
                 });
 
             modelBuilder.Entity("LetThereBeVoice.Models.User", b =>
@@ -346,33 +304,6 @@ namespace LetThereBeVoice.Migrations
                     b.Navigation("Creator");
                 });
 
-            modelBuilder.Entity("LetThereBeVoice.Models.ServerRole", b =>
-                {
-                    b.HasOne("LetThereBeVoice.Models.Role", "Role")
-                        .WithMany("ServerRoles")
-                        .HasForeignKey("RoleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LetThereBeVoice.Models.Server", "Server")
-                        .WithMany()
-                        .HasForeignKey("ServerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LetThereBeVoice.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("Server");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("LetThereBeVoice.Models.UserServer", b =>
                 {
                     b.HasOne("LetThereBeVoice.Models.Server", "Server")
@@ -414,11 +345,6 @@ namespace LetThereBeVoice.Migrations
             modelBuilder.Entity("LetThereBeVoice.Models.Channel", b =>
                 {
                     b.Navigation("Messages");
-                });
-
-            modelBuilder.Entity("LetThereBeVoice.Models.Role", b =>
-                {
-                    b.Navigation("ServerRoles");
                 });
 
             modelBuilder.Entity("LetThereBeVoice.Models.Server", b =>

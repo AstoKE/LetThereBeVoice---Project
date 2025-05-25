@@ -14,7 +14,9 @@ namespace LetThereBeVoice.Data
         public DbSet<UserServer> UserServer { get; set; }
         public DbSet<UserRecentActivity> UserRecentActivity { get; set; }
         public DbSet<Friendship> Friendships { get; set; }
-
+        public DbSet<VoiceSession> VoiceSessions { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<ServerRole> ServerRoles { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

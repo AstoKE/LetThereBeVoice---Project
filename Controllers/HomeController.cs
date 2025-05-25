@@ -32,6 +32,16 @@ namespace LetThereBeVoice.Controllers
                 .Where(s => joinedServerIds.Contains(s.ServerID))
                 .ToList();
 
+            var userRoleMap = _context.ServerRoles
+                .Include(sr => sr.Role)
+                .Where(sr => joinedServerIds.Contains(sr.ServerID) && sr.UserID == userId)
+                .GroupBy(sr => sr.ServerID)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.FirstOrDefault()?.Role?.RoleName ?? "Unknown"
+                );
+
+            ViewBag.UserRoles = userRoleMap;
 
             ViewBag.UserName = user.Username;
             ViewBag.CreatedServers = user.CreatedServers;

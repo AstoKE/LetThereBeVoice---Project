@@ -54,4 +54,11 @@ public class StatsController : Controller
         return View(data);
     }
 
+    public IActionResult RecentMessages()
+    {
+        var recent = _context.UserRecentActivity.ToList();
+        return View(recent);
+    }
+
+
 }
