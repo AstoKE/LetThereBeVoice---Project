@@ -19,7 +19,10 @@ namespace LetThereBeVoice.Controllers
             int? userId = HttpContext.Session.GetInt32("UserID");
             if (userId == null) return RedirectToAction("Login", "Account");
 
-            var channel = _context.Channels.FirstOrDefault(c => c.ChannelID == channelId);
+            var channel = _context.Channels
+                .Include(c => c.Server)
+                .FirstOrDefault(c => c.ChannelID == channelId);
+
             var messages = _context.Messages
                 .Include(m => m.Sender)
                 .Where(m => m.ChannelID == channelId)
@@ -44,12 +47,11 @@ namespace LetThereBeVoice.Controllers
                 .ToList();
 
             ViewBag.VoiceUsers = voiceUsers;
-
-
             ViewBag.Participants = participants;
 
             return View(messages);
         }
+
 
 
         [HttpPost]
