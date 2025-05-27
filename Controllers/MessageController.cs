@@ -20,7 +20,7 @@ namespace LetThereBeVoice.Controllers
             if (userId == null) return RedirectToAction("Login", "Account");
 
             var channel = _context.Channels
-                .Include(c => c.Server)
+                .Include(c => c.Server) 
                 .FirstOrDefault(c => c.ChannelID == channelId);
 
             var messages = _context.Messages
@@ -51,6 +51,7 @@ namespace LetThereBeVoice.Controllers
 
             return View(messages);
         }
+
 
 
 

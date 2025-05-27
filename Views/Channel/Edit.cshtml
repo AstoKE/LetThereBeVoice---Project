@@ -1,12 +1,31 @@
 ﻿@model LetThereBeVoice.Models.Channel
+@{
+    ViewData["Title"] = "Edit Channel";
+}
 
-<h2>Edit Channel</h2>
+<div class="container py-5">
+    <div class="card bg-dark text-light border-secondary mx-auto" style="max-width: 500px;">
+        <div class="card-body">
+            <h3 class="card-title text-info text-center mb-4">Edit Channel</h3>
 
-<form method="post">
-    <input asp-for="ChannelID" type="hidden" />
-    <label>Channel Name:</label>
-    <input asp-for="ChannelName" class="form-control" />
-    <br />
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-    <a href="/Channel/List?serverId=@Model.ServerID" class="btn btn-secondary">Cancel</a>
-</form>
+            <form method="post">
+                <input type="hidden" name="ChannelID" value="@Model.ChannelID" />
+                <input type="hidden" name="ServerID" value="@Model.ServerID" />
+                <div class="mb-3">
+                    <label class="form-label">Channel Name</label>
+                    <input type="text" name="ChannelName" class="form-control bg-dark text-light border-secondary" value="@Model.ChannelName" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Channel Type</label>
+                    <select name="ChannelType" class="form-select bg-dark text-light border-secondary">
+                        <option value="Text">Text</option>
+                        <option value="Voice">Voice</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Update Channel</button>
+            </form>
+
+            <a href="/Channel/List?serverId=@Model.ServerID" class="btn btn-secondary mt-3 w-100">⬅ Back to Channel List</a>
+        </div>
+    </div>
+</div>

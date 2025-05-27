@@ -1,6 +1,6 @@
 ﻿@model List<LetThereBeVoice.Models.UserRecentActivity>
 
-<h2 class="text-info mb-4">Recent Global Messages</h2>
+<h2 class="text-warning mb-4">Recent Global Messages</h2>
 
 <ul class="list-group">
     @foreach (var item in Model)
@@ -10,7 +10,7 @@
             <span class="text-info">#@item.ChannelName</span><br />
             <span>@item.Content</span>
             <br>
-            <small class="text-info" >Sent at: @item.SentAt.ToLocalTime()</small>
+            <small class="text-info">Sent at: @item.SentAt.ToLocalTime()</small>
         </li>
     }
 </ul>

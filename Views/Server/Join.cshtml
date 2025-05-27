@@ -3,14 +3,14 @@
 }
 
 <div class="container py-5">
-    <h2 class="text-info mb-4">Join an Existing Server</h2>
+    <h2 class="text-warning mb-4">Join an Existing Server</h2>
 
     <form method="post" class="row g-3 mb-5">
         <div class="col-md-8">
             <input name="serverId" type="number" class="form-control form-control-lg" placeholder="Enter server ID..." required />
         </div>
         <div class="col-md-4">
-            <button type="submit" class="btn btn-primary btn-lg w-100">Join by ID</button>
+            <button type="submit" class="btn btn-success btn-lg w-100">Join by ID</button>
         </div>
     </form>
 
@@ -21,10 +21,14 @@
             @foreach (var server in (List<LetThereBeVoice.Models.Server>)ViewBag.AvailableServers)
             {
                 <div class="col-md-6 col-lg-4 mb-3">
-                    <div class="card bg-dark text-light border-info shadow-sm">
+                    <div class="card bg-dark  border-info shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title text-info">@server.ServerName</h5>
-                            <p class="card-text"><small class="text-muted">Created at: @server.CreationDate.ToLocalTime().ToString("g")</small></p>
+                            <p class="card-text">
+                                <small class="text-warning">
+                                    Created at: @server.CreationDate.ToLocalTime().ToString("g")
+                                </small>
+                            </p>
                             <form method="post" action="/Server/Join">
                                 <input type="hidden" name="serverId" value="@server.ServerID" />
                                 <button type="submit" class="btn btn-outline-info btn-sm w-100">Join This Server</button>

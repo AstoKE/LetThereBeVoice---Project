@@ -45,6 +45,14 @@
             <span># @channel.ChannelName</span>
         </div>
 
+        <div class="input-area sticky-input">
+            <form method="post" action="/Message/Send" class="d-flex gap-2">
+                <input type="hidden" name="channelId" value="@channel.ChannelID" />
+                <input type="text" name="content" class="form-control" placeholder="Message #@channel.ChannelName" required />
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+        </div>
+
         <div class="messages-container">
             @if (Model != null && Model.Any())
             {
@@ -70,26 +78,29 @@
                     <p>No messages yet in this channel. Be the first to start a conversation!</p>
                 </div>
             }
+       
         </div>
-
-        <div class="input-area">
-            <form method="post" action="/Message/Send" class="message-input-container">
-                <input type="hidden" name="channelId" value="@channel.ChannelID" />
-                <input type="text" name="content" class="message-input" placeholder="Message #@channel.ChannelName" required autocomplete="off" />
-                <button type="submit" class="btn btn-primary">Send</button>
-            </form>
-        </div>
+       
     </div>
 </div>
 
 @section Scripts {
     <script>
-        // Scroll to bottom of messages container on load
-        document.addEventListener('DOMContentLoaded', function() {
-            var messagesContainer = document.querySelector('.messages-container');
-            if (messagesContainer) {
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        function scrollToBottom() {
+            const container = document.querySelector('.messages-container');
+            if (container) {
+                container.scrollTop = container.scrollHeight;
             }
-        });
+        }
+
+        document.addEventListener('DOMContentLoaded', scrollToBottom);
+
+        const messageForm = document.querySelector('form[action="/Message/Send"]');
+        if (messageForm) {
+            messageForm.addEventListener('submit', function () {
+                setTimeout(scrollToBottom, 50); 
+            });
+        }
     </script>
 }
+

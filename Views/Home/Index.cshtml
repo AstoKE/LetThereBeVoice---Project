@@ -20,9 +20,9 @@
                             <div class="card border-warning shadow-sm bg-dark text-light">
                                 <div class="card-body">
                                     <h5 class="card-title">@s.ServerName</h5>
-                                    <p class="card-text"><small class="text-muted">Created: @s.CreationDate.ToShortDateString()</small></p>
+                                    <p class="card-text"><p class="text-light">Created: @s.CreationDate.ToShortDateString()</p></p>
                                     <a href="/Channel/List?serverId=@s.ServerID" class="btn btn-outline-warning btn-sm w-100">Go to Channels</a>
-                                
+
                                 </div>
                             </div>
                         </div>
@@ -52,10 +52,9 @@
                                         ? userRoles[s.ServerID]
                                         : "Unknown";
                                     }
-                                    <small class="text-muted">Role: @roleName</small>
+                                    <small class="text-light">Role: @roleName</small>
 
                                     <a href="/Channel/List?serverId=@s.ServerID" class="btn btn-outline-info btn-sm w-100">Go to Channels</a>
-
                                 </div>
                             </div>
                         </div>
@@ -64,7 +63,7 @@
             }
             else
             {
-                <p class="text-muted">You haven’t joined any servers yet.</p>
+                <p class="text-light">You haven’t joined any servers yet.</p>
             }
         </div>
     </div>

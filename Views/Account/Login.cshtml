@@ -2,20 +2,57 @@
     ViewData["Title"] = "Login";
 }
 
-<h2>Login</h2>
+<style>
+    .login-card {
+        min-width: 340px;
+        max-width: 370px;
+        border-radius: 1.5rem;
+        box-shadow: 0 6px 32px rgba(0,0,0,0.38), 0 1.5px 4px 0 rgba(0,0,0,0.16);
+        background: rgba(24,26,28,0.97);
+        border: 1.5px solid #222831;
+    }
 
-@if (ViewBag.Error != null)
-{
-    <p style="color:red;">@ViewBag.Error</p>
-}
+    .login-form .form-control:focus {
+        border-color: #0dcaf0;
+        box-shadow: 0 0 4px #0dcaf088;
+        background-color: #2d3136;
+        color: #fff;
+    }
 
-<form method="post">
-    <label>Username:</label><br />
-    <input name="username" /><br />
-    <label>Password:</label><br />
-    <input name="password" type="password" /><br /><br />
-    <button type="submit">Login</button>
-</form>
+    .login-form .btn-info {
+        background: linear-gradient(90deg, #00c6fb 0%, #005bea 100%);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 1px;
+        border-radius: 0.75rem;
+        box-shadow: 0 2px 12px rgba(13,202,240,0.18);
+        transition: 0.15s;
+    }
 
-<p>Don't have an account? <a href="/Account/Register">Register here</a></p>
+        .login-form .btn-info:hover {
+            filter: brightness(1.12) drop-shadow(0 2px 16px #00c6fb44);
+            color: #fff;
+        }
+</style>
 
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card login-card p-4 login-form">
+        <h2 class="text-center mb-4 text-info">Login</h2>
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label text-light" for="username">Username:</label>
+                <input class="form-control bg-secondary text-light" type="text" id="username" name="username" required autofocus />
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-light" for="password">Password:</label>
+                <input class="form-control bg-secondary text-light" type="password" id="password" name="password" required />
+            </div>
+            <button class="btn btn-info w-100 mb-2" type="submit">Login</button>
+        </form>
+        <div class="text-center mt-2">
+            <span class="text-light">Don't have an account?</span>
+            <a href="/Account/Register" class="text-info">Register here</a>
+        </div>
+    </div>
+</div>

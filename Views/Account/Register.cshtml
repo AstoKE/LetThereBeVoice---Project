@@ -1,35 +1,62 @@
-﻿@model LetThereBeVoice.Models.User
-@{
+﻿@{
     ViewData["Title"] = "Register";
 }
 
-<h2>Register</h2>
-
-@* Hataları Göster *@
-@if (!ViewData.ModelState.IsValid)
-{
-    <div style="color:red;">
-        <ul>
-            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-            {
-                <li>@error.ErrorMessage</li>
-            }
-        </ul>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card login-card p-4 login-form">
+        <h2 class="text-center mb-4 text-warning">Register</h2>
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label text-light" for="username">Username:</label>
+                <input class="form-control bg-secondary text-light" type="text" id="username" name="username" required autofocus />
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-light" for="email">Email:</label>
+                <input class="form-control bg-secondary text-light" type="email" id="email" name="email" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-light" for="password">Password:</label>
+                <input class="form-control bg-secondary text-light" type="password" id="password" name="password" required />
+            </div>
+            <button class="btn btn-warning w-100 mb-2" type="submit">Register</button>
+        </form>
+        <div class="text-center mt-2">
+            <span class="text-light">Already have an account?</span>
+            <a href="/Account/Login" class="text-info">Login here</a>
+        </div>
     </div>
-}
+</div>
+<style>
+    .login-card {
+        min-width: 340px;
+        max-width: 370px;
+        border-radius: 1.5rem;
+        box-shadow: 0 6px 32px rgba(0,0,0,0.38), 0 1.5px 4px 0 rgba(0,0,0,0.16);
+        background: rgba(24,26,28,0.97);
+        border: 1.5px solid #222831;
+    }
 
-<form method="post">
-    <label>Username:</label>
-    <input asp-for="Username" />
-    <span asp-validation-for="Username" style="color:red"></span>
+    .login-form .form-control:focus {
+        border-color: #ffc107;
+        box-shadow: 0 0 4px #ffc10788;
+        background-color: #2d3136;
+        color: #fff;
+    }
 
-    <label>Email:</label>
-    <input asp-for="Email" />
-    <span asp-validation-for="Email" style="color:red"></span>
+    .login-form .btn-warning {
+        background: linear-gradient(90deg, #ffe259 0%, #ffa751 100%);
+        border: none;
+        color: #222831;
+        font-weight: 600;
+        letter-spacing: 1px;
+        border-radius: 0.75rem;
+        box-shadow: 0 2px 12px rgba(255,193,7,0.18);
+        transition: 0.18s;
+    }
 
-    <label>Password:</label>
-    <input asp-for="Password" type="password" />
-    <span asp-validation-for="Password" style="color:red"></span>
+        .login-form .btn-warning:hover {
+            filter: brightness(1.13) drop-shadow(0 2px 16px #ffc10744);
+            color: #222831;
+        }
+</style>
 
-    <button type="submit">Register</button>
-</form>
