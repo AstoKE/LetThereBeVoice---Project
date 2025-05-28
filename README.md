@@ -1,135 +1,91 @@
-# LetThereBeVoice 🎙️  
-A Discord-inspired ASP.NET Core MVC application for voice & text communication, server and channel management, and user interaction (roles, friendships, stats).
+LetThereBeVoice 
+A web-based voice & text communication platform inspired by Discord, built with ASP.NET Core MVC and Entity Framework Core.
 
----
+---Libraries / Technologies Used
 
-## 🛠️ Technologies Used
+Visual Studio 2022
 
-- **.NET 8**
-- **ASP.NET Core MVC**
-- **Entity Framework Core (EF Core)** (SQL Server Provider)
-- **Bootstrap 5**
-- **SQL Server** (LocalDB or any available SQL Server instance)
+.NET 8
 
----
+ASP.NET Core MVC
 
-## 📦 Dependencies
+Entity Framework Core (EF Core) – SQL Server provider
 
-Make sure the following NuGet packages are installed:
+Bootstrap 5
 
-```bash
+SQL Server LocalDB or full instance
+
+---How to Run the Project (Step-by-Step)
+
+Clone the Repository
+(or just use zip file)s
+
+git clone https://github.com/yourusername/LetThereBeVoice.git
+cd LetThereBeVoice
+Ensure Prerequisites Are Installed
+
+.NET 8 SDK
+
+SQL Server LocalDB
+
+Visual Studio (recommended) or VS Code
+
+---Install Required NuGet Packages
+
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet add package Microsoft.AspNetCore.Session
-Or install via Visual Studio NuGet Manager.
 
-⚙️ Local Setup Instructions
-1. Clone the repository
-bash
-Kopyala
-Düzenle
-git clone https://github.com/yourusername/LetThereBeVoice.git
-cd LetThereBeVoice
-2. Setup SQL Server (LocalDB)
-Make sure you have SQL Server (Express/LocalDB) installed and running. You can check this via:
+---Create the Database
 
-bash
-Kopyala
-Düzenle
-sqllocaldb start
-sqllocaldb info
-Or use full SQL Server with correct connection string in appsettings.json.
-
-3. Update the Database
-Run EF Core migrations and seed roles:
-
-bash
-Kopyala
-Düzenle
 dotnet ef database update
-Then insert the base roles manually if needed:
+Insert Default Roles (Admin, Member)
 
-sql
-Kopyala
-Düzenle
+---sql
+
 SET IDENTITY_INSERT Roles ON;
 INSERT INTO Roles (RoleID, RoleName) VALUES (1, 'Admin'), (2, 'Member');
 SET IDENTITY_INSERT Roles OFF;
-4. Launch the Application
-bash
-Kopyala
-Düzenle
-dotnet run
-Visit https://localhost:7187 or http://localhost:5299
+Trust HTTPS Certificate (if needed)
 
-🔐 HTTPS Development Certificates
-If needed, trust the dev cert:
 
-bash
-Kopyala
-Düzenle
 dotnet dev-certs https --trust
-📋 Features
-🔐 User Login/Register
 
-🎙️ Voice Session Simulation
+---Run the Project
 
-📝 Text Messaging per Channel
+dotnet run
+Open:
 
-📁 Server & Channel Management
+https://localhost:7187
 
-👥 Friendship System (requests, list, add)
+or http://localhost:5299
 
-🛡️ Role Management (Admin/Member)
+--Features
 
-📊 Stats (via LINQ & SQL Views)
+User Registration & Login
 
-🧠 Trigger-based activity update (EF logic)
+Server & Channel Management
 
-📈 Dashboard UI with Bootstrap 5
+Text Messaging per Channel
 
-👤 Admin Functionality
-Only users with Admin role on a server can:
+Simulated Voice Session Panel
 
-Edit/Delete Channels
+Role Assignment (Admin / Member)
 
-Manage Roles (future)
+Friendship System (Add, Accept, View)
 
-Access Admin Panel (future)
+Real-Time Stats with LINQ & SQL Views
 
-🧪 Development Notes
-Roles are enforced in views and backend.
+LastActivity tracking via trigger logic
 
-LastActivity is updated when a message is sent.
+Fully responsive UI with Bootstrap
 
-UserRecentActivity SQL View is used for stats display.
+---Group Info:
 
-Use Developer Tools (F12) to trace live UI data bindings.
+Emir Ağaoğlu(1009328300)
+Şükrü Enes Tuğaç(12133216098)
+Barkın Bacalan(13964010824)
+Ceren Kısacık(18913012072)
 
-📁 Folder Structure
-bash
-Kopyala
-Düzenle
-LetThereBeVoice/
-│
-├── Controllers/           # MVC Controllers
-├── Models/                # EF Models
-├── Views/                 # Razor Views
-├── Data/                  # AppDbContext & Migrations
-├── wwwroot/               # Static files (CSS, JS, etc.)
-└── Program.cs / Startup.cs
-✍️ Contributors
-Developer: [Your Name]
-
-University: TED University – CMPE232 Term Project Spring 2025
-
-📄 License
-This project is for academic use only.
-
-yaml
-Kopyala
-Düzenle
-
----
-
-Eğer bu dosyayı doğrudan `.md` formatında eklemek istersen senin için dosya haline de getirebilirim. Ay
+University: TED University
+Course: CMPE232 – Spring 2025 Term Project
